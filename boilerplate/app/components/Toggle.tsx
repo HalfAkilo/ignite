@@ -20,10 +20,11 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated"
-import { colors, spacing } from "../theme"
 import { iconRegistry, IconTypes } from "./Icon"
 import { Text, TextProps } from "./Text"
 import { isRTL } from "app/i18n"
+import { useAppTheme } from "app/utils/useAppTheme"
+import { ThemedStyle } from "app/theme"
 
 type Variants = "checkbox" | "switch" | "radio"
 
@@ -184,6 +185,8 @@ export function Toggle(props: ToggleProps) {
     ...WrapperProps
   } = props
 
+  const { colors } = useAppTheme()
+
   const { switchAccessibilityMode } = props as SwitchToggleProps
   const { checkboxIcon } = props as CheckboxToggleProps
 
@@ -273,6 +276,8 @@ function Checkbox(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
+  const { colors } = useAppTheme()
+
   const offBackgroundColor = [
     disabled && colors.palette.neutral400,
     status === "error" && colors.errorBackground,
@@ -341,6 +346,8 @@ function Radio(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
+  const { colors } = useAppTheme()
+
   const offBackgroundColor = [
     disabled && colors.palette.neutral400,
     status === "error" && colors.errorBackground,
@@ -403,6 +410,8 @@ function Switch(props: ToggleInputProps) {
     innerStyle: $innerStyleOverride,
     detailStyle: $detailStyleOverride,
   } = props
+
+  const { themed, colors } = useAppTheme()
 
   const knobSizeFallback = 2
 
@@ -482,7 +491,7 @@ function Switch(props: ToggleInputProps) {
     >
       <Animated.View
         style={[
-          $switchInner,
+          themed($switchInner),
           { backgroundColor: onBackgroundColor },
           $innerStyleOverride,
           useAnimatedStyle(() => ({ opacity: withTiming(on ? 1 : 0) }), [on]),
@@ -511,6 +520,8 @@ function Switch(props: ToggleInputProps) {
  */
 function SwitchAccessibilityLabel(props: ToggleInputProps & { role: "on" | "off" }) {
   const { on, disabled, status, switchAccessibilityMode, role, innerStyle, detailStyle } = props
+
+  const { colors } = useAppTheme()
 
   if (!switchAccessibilityMode) return null
 
@@ -566,6 +577,8 @@ function FieldLabel(props: BaseToggleProps) {
     labelPosition,
     labelStyle: $labelStyleOverride,
   } = props
+
+  const { colors } = useAppTheme()
 
   if (!label && !labelTx && !LabelTextProps?.children) return null
 
@@ -641,7 +654,7 @@ const $radioDetail: ViewStyle = {
   borderRadius: 6,
 }
 
-const $switchInner: ViewStyle = {
+const $switchInner: ThemedStyle<ViewStyle> = (colors) => ({
   width: "100%",
   height: "100%",
   alignItems: "center",
@@ -650,7 +663,7 @@ const $switchInner: ViewStyle = {
   position: "absolute",
   paddingStart: 4,
   paddingEnd: 4,
-}
+})
 
 const $switchDetail: SwitchToggleProps["inputDetailStyle"] = {
   borderRadius: 12,
@@ -659,21 +672,21 @@ const $switchDetail: SwitchToggleProps["inputDetailStyle"] = {
   height: 24,
 }
 
-const $helper: TextStyle = {
+const $helper: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginTop: spacing.xs,
-}
+})
 
 const $label: TextStyle = {
   flex: 1,
 }
 
-const $labelRight: TextStyle = {
+const $labelRight: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginStart: spacing.md,
-}
+})
 
-const $labelLeft: TextStyle = {
+const $labelLeft: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginEnd: spacing.md,
-}
+})
 
 const $switchAccessibility: TextStyle = {
   width: "40%",

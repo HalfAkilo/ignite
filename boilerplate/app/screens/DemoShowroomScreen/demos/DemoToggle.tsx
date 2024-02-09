@@ -2,7 +2,7 @@
 import React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { Text, Toggle, ToggleProps } from "../../../components"
-import { colors, spacing } from "../../../theme"
+import { spacing } from "../../../theme"
 import { Demo } from "../DemoShowroomScreen"
 import { DemoDivider } from "../DemoDivider"
 import { DemoUseCase } from "../DemoUseCase"
@@ -27,7 +27,7 @@ export const DemoToggle: Demo = {
   name: "Toggle",
   description:
     "Renders a boolean input. This is a controlled component that requires an onValueChange callback that updates the value prop in order for the component to reflect user actions. If the value prop is not updated, the component will continue to render the supplied value prop instead of the expected result of any user actions.",
-  data: [
+  data: ({ colors }) => [
     <DemoUseCase
       name="Variants"
       description="The component supports a few different variants. If heavy customization of a specific variant is needed, it can be easily refactored. The default is `checkbox`."
