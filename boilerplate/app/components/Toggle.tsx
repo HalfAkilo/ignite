@@ -185,7 +185,10 @@ export function Toggle(props: ToggleProps) {
     ...WrapperProps
   } = props
 
-  const { colors, themed } = useAppTheme()
+  const {
+    theme: { colors },
+    themed,
+  } = useAppTheme()
 
   const { switchAccessibilityMode } = props as SwitchToggleProps
   const { checkboxIcon } = props as CheckboxToggleProps
@@ -276,7 +279,9 @@ function Checkbox(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
-  const { colors } = useAppTheme()
+  const {
+    theme: { colors },
+  } = useAppTheme()
 
   const offBackgroundColor = [
     disabled && colors.palette.neutral400,
@@ -346,7 +351,9 @@ function Radio(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
-  const { colors } = useAppTheme()
+  const {
+    theme: { colors },
+  } = useAppTheme()
 
   const offBackgroundColor = [
     disabled && colors.palette.neutral400,
@@ -411,7 +418,10 @@ function Switch(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
-  const { themed, colors } = useAppTheme()
+  const {
+    themed,
+    theme: { colors },
+  } = useAppTheme()
 
   const knobSizeFallback = 2
 
@@ -454,16 +464,18 @@ function Switch(props: ToggleInputProps) {
   })()
 
   const $animatedSwitchKnob = useAnimatedStyle(() => {
+    const $themedSwitchInner = themed($switchInner)
+
     const offsetLeft = ($innerStyleOverride?.paddingStart ||
       $innerStyleOverride?.paddingLeft ||
-      themed($switchInner)?.paddingStart ||
-      themed($switchInner)?.paddingLeft ||
+      $themedSwitchInner?.paddingStart ||
+      $themedSwitchInner?.paddingLeft ||
       0) as number
 
     const offsetRight = ($innerStyleOverride?.paddingEnd ||
       $innerStyleOverride?.paddingRight ||
-      themed($switchInner)?.paddingEnd ||
-      themed($switchInner)?.paddingRight ||
+      $themedSwitchInner?.paddingEnd ||
+      $themedSwitchInner?.paddingRight ||
       0) as number
 
     // For RTL support:
@@ -521,7 +533,9 @@ function Switch(props: ToggleInputProps) {
 function SwitchAccessibilityLabel(props: ToggleInputProps & { role: "on" | "off" }) {
   const { on, disabled, status, switchAccessibilityMode, role, innerStyle, detailStyle } = props
 
-  const { colors } = useAppTheme()
+  const {
+    theme: { colors },
+  } = useAppTheme()
 
   if (!switchAccessibilityMode) return null
 
@@ -578,7 +592,10 @@ function FieldLabel(props: BaseToggleProps) {
     labelStyle: $labelStyleOverride,
   } = props
 
-  const { colors, themed } = useAppTheme()
+  const {
+    theme: { colors },
+    themed,
+  } = useAppTheme()
 
   if (!label && !labelTx && !LabelTextProps?.children) return null
 
