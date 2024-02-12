@@ -411,7 +411,7 @@ function Switch(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
-  const { themed, theme, colors } = useAppTheme()
+  const { themed, colors } = useAppTheme()
 
   const knobSizeFallback = 2
 
@@ -456,14 +456,14 @@ function Switch(props: ToggleInputProps) {
   const $animatedSwitchKnob = useAnimatedStyle(() => {
     const offsetLeft = ($innerStyleOverride?.paddingStart ||
       $innerStyleOverride?.paddingLeft ||
-      $switchInner(theme)?.paddingStart ||
-      $switchInner(theme)?.paddingLeft ||
+      themed($switchInner)?.paddingStart ||
+      themed($switchInner)?.paddingLeft ||
       0) as number
 
     const offsetRight = ($innerStyleOverride?.paddingEnd ||
       $innerStyleOverride?.paddingRight ||
-      $switchInner(theme)?.paddingEnd ||
-      $switchInner(theme)?.paddingRight ||
+      themed($switchInner)?.paddingEnd ||
+      themed($switchInner)?.paddingRight ||
       0) as number
 
     // For RTL support:
