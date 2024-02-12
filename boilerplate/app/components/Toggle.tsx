@@ -185,7 +185,7 @@ export function Toggle(props: ToggleProps) {
     ...WrapperProps
   } = props
 
-  const { colors } = useAppTheme()
+  const { colors, themed } = useAppTheme()
 
   const { switchAccessibilityMode } = props as SwitchToggleProps
   const { checkboxIcon } = props as CheckboxToggleProps
@@ -201,7 +201,7 @@ export function Toggle(props: ToggleProps) {
   const $containerStyles = [$containerStyleOverride]
   const $inputWrapperStyles = [$inputWrapper, $inputWrapperStyleOverride]
   const $helperStyles = [
-    $helper,
+    themed($helper),
     status === "error" && { color: colors.error },
     HelperTextProps?.style,
   ]
@@ -411,7 +411,7 @@ function Switch(props: ToggleInputProps) {
     detailStyle: $detailStyleOverride,
   } = props
 
-  const { themed, colors } = useAppTheme()
+  const { themed, theme, colors } = useAppTheme()
 
   const knobSizeFallback = 2
 
@@ -456,14 +456,14 @@ function Switch(props: ToggleInputProps) {
   const $animatedSwitchKnob = useAnimatedStyle(() => {
     const offsetLeft = ($innerStyleOverride?.paddingStart ||
       $innerStyleOverride?.paddingLeft ||
-      $switchInner?.paddingStart ||
-      $switchInner?.paddingLeft ||
+      $switchInner(theme)?.paddingStart ||
+      $switchInner(theme)?.paddingLeft ||
       0) as number
 
     const offsetRight = ($innerStyleOverride?.paddingEnd ||
       $innerStyleOverride?.paddingRight ||
-      $switchInner?.paddingEnd ||
-      $switchInner?.paddingRight ||
+      $switchInner(theme)?.paddingEnd ||
+      $switchInner(theme)?.paddingRight ||
       0) as number
 
     // For RTL support:
@@ -578,15 +578,15 @@ function FieldLabel(props: BaseToggleProps) {
     labelStyle: $labelStyleOverride,
   } = props
 
-  const { colors } = useAppTheme()
+  const { colors, themed } = useAppTheme()
 
   if (!label && !labelTx && !LabelTextProps?.children) return null
 
   const $labelStyle = [
     $label,
     status === "error" && { color: colors.error },
-    labelPosition === "right" && $labelRight,
-    labelPosition === "left" && $labelLeft,
+    labelPosition === "right" && themed($labelRight),
+    labelPosition === "left" && themed($labelLeft),
     $labelStyleOverride,
     LabelTextProps?.style,
   ]
@@ -654,7 +654,7 @@ const $radioDetail: ViewStyle = {
   borderRadius: 6,
 }
 
-const $switchInner: ThemedStyle<ViewStyle> = (colors) => ({
+const $switchInner: ThemedStyle<ViewStyle> = ({ colors }) => ({
   width: "100%",
   height: "100%",
   alignItems: "center",
