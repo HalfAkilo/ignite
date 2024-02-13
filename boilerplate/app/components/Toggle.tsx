@@ -463,9 +463,8 @@ function Switch(props: ToggleInputProps) {
     }
   })()
 
+  const $themedSwitchInner = themed($switchInner)
   const $animatedSwitchKnob = useAnimatedStyle(() => {
-    const $themedSwitchInner = themed($switchInner)
-
     const offsetLeft = ($innerStyleOverride?.paddingStart ||
       $innerStyleOverride?.paddingLeft ||
       $themedSwitchInner?.paddingStart ||
